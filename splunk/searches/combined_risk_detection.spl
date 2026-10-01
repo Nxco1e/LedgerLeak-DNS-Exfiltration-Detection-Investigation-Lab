@@ -1,0 +1,11 @@
+# Detection 7: Combined risk-based alert
+# Combines entropy, subdomain length, volume, and process context into one decision aid.
+# Why it matters: a single noisy indicator is not enough; a correlated risk score is more explainable.
+# Fields required: host, src_ip, risk_score, entropy, full_domain_length, queries_per_minute, parent_domain
+# MITRE ATT&CK: T1048, T1071.004, T1059.001
+# Analyst triage: review the full timeline and confirm with endpoint and authentication evidence.
+
+index=dns_analytics
+| where risk_score >= 60
+| table _time host src_ip user parent_domain query_name entropy full_domain_length queries_per_minute risk_score
+| sort - risk_score

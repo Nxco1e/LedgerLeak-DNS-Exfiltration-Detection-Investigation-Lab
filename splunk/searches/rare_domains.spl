@@ -1,0 +1,11 @@
+# Detection 4: Rare domain contacted by only one endpoint
+# Detects non-standard domains that are not commonly seen in the environment.
+# Why it matters: DNS tunneling frequently uses unusual or controlled domains.
+# Fields required: _time, host, parent_domain, src_ip, query_count
+# MITRE ATT&CK: T1071.004
+# Analyst triage: verify if the parent domain is internal or sensitive and if the traffic is isolated to one host.
+
+index=dns_analytics
+| stats count AS query_count BY host, parent_domain, src_ip
+| where query_count > 50
+| sort - query_count

@@ -1,0 +1,20 @@
+title: Suspicious DNS Query Length
+id: 5fa05b7c-91a8-4e4f-94ff-644ee7d7a1ef
+status: experimental
+author: LedgerLeak Lab
+date: 2026/09/30
+description: Detects unusually long DNS query names that may indicate encoded or tunnelled data.
+logsource:
+  category: dns
+detection:
+  selection:
+    query_length: '> 70'
+  condition: selection
+falsepositives:
+  - CDN and edge traffic
+  - security product DNS telemetry
+  - some SaaS metadata queries
+level: medium
+tags:
+  - attack.t1048
+  - attack.t1071.004

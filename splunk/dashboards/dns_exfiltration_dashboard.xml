@@ -1,0 +1,32 @@
+<dashboard>
+  <label>DNS Exfiltration Detection Center</label>
+  <description>Correlated endpoint, DNS, and risk telemetry for suspicious data exfiltration patterns.</description>
+  <row>
+    <panel>
+      <title>DNS Queries Over Time</title>
+      <chart>
+        <search>
+          <query>index=dns_analytics | timechart count by host</query>
+        </search>
+      </chart>
+    </panel>
+    <panel>
+      <title>Top Source Endpoints</title>
+      <chart>
+        <search>
+          <query>index=dns_analytics | stats count by host</query>
+        </search>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>High-Risk DNS Events</title>
+      <table>
+        <search>
+          <query>index=dns_analytics | where risk_score > 60 | table _time host src_ip user parent_domain query_name entropy risk_score</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+</dashboard>

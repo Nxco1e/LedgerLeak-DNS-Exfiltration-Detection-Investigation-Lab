@@ -1,0 +1,11 @@
+# Detection 1: Excessive DNS queries by endpoint
+# Detects a sudden base rate increase in DNS requests from a single endpoint.
+# Why it matters: DNS tunneling often produces large query spikes.
+# Fields required: _time, host, src_ip, query_name, count
+# MITRE ATT&CK: T1071.004 (Application Layer Protocol)
+# Analyst triage: review host, user, and response patterns; compare with baseline.
+
+index=dns_analytics
+| stats count AS query_count BY host, src_ip
+| where query_count > 200
+| sort - query_count

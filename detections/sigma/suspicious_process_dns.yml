@@ -1,0 +1,20 @@
+title: Suspicious Process Followed by DNS Activity
+id: 9f0b4d08-6b10-4fb0-9f9f-8748d1ea2f24
+status: experimental
+author: LedgerLeak Lab
+date: 2026/09/30
+description: Detects a suspicious parent-child process sequence followed by abnormal DNS queries.
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_process:
+    Image|endswith: 'powershell.exe'
+  condition: selection_process
+falsepositives:
+  - system administration tasks
+  - approved scripting activity
+level: high
+tags:
+  - attack.t1059.001
+  - attack.t1048

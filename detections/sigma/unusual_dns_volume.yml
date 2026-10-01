@@ -1,0 +1,20 @@
+title: Unusual DNS Volume from Host
+id: 7be28fde-1aef-42ef-9aa4-8c4e4faea8e1
+status: experimental
+author: LedgerLeak Lab
+date: 2026/09/30
+description: Detects a sudden increase in DNS activity from a single endpoint.
+logsource:
+  category: dns
+detection:
+  selection:
+    count: '> 200'
+  condition: selection
+falsepositives:
+  - scheduled backups
+  - large software downloads
+  - scanning tools
+level: medium
+tags:
+  - attack.t1048
+  - attack.t1071.004

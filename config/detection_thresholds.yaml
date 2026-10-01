@@ -1,0 +1,27 @@
+risk:
+  long_subdomain_threshold: 35
+  entropy_threshold: 3.4
+  query_rate_threshold: 40
+  unique_subdomain_threshold: 30
+  rare_domain_threshold: 1
+  suspicious_process_bonus: 25
+
+categories:
+  low_max: 29
+  medium_max: 59
+  high_max: 79
+
+baseline:
+  zscore_threshold: 3.0
+  high_query_multiplier: 2.5
+  entropy_margin: 0.5
+
+labels:
+  suspicious_parent_domain: "lab-sync.test"
+  suspicious_dest_domain: "lab-sync.test"
+  suspicious_hosts:
+    - "FIN-WS-014"
+
+analysis:
+  dns_time_window_minutes: 30
+  process_window_minutes: 15

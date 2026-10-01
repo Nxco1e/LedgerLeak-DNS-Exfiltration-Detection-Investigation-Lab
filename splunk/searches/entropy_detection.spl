@@ -1,0 +1,11 @@
+# Detection 3: High-entropy DNS subdomains
+# Detects labels that appear random, algorithmic, or compressed.
+# Why it matters: encoded payloads tend to produce high character diversity.
+# Fields required: _time, host, subdomain, entropy, query_name
+# MITRE ATT&CK: T1048
+# Analyst triage: combine with query volume and process context before escalating.
+
+index=dns_analytics
+| where entropy > 3.4
+| table _time host src_ip user query_name subdomain entropy
+| sort - entropy

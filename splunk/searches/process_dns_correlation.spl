@@ -1,0 +1,11 @@
+# Detection 6: Suspicious process followed by abnormal DNS activity
+# Correlates process creation events with DNS anomalies by host and time proximity.
+# Why it matters: DNS exfiltration often follows user-driven scripts or suspicious command execution.
+# Fields required: _time, host, User, Image, ParentImage, query_name, entropy, src_ip
+# MITRE ATT&CK: T1059.001, T1048
+# Analyst triage: review parent-child process lineage and user account context.
+
+index=endpoint EventID=1 OR index=dns_analytics
+| eval timestamp = coalesce(_time, _time)
+| stats values(Image) AS images values(ParentImage) AS parent_images values(User) AS users values(query_name) AS queries values(entropy) AS entropy BY host _time
+| sort - entropy

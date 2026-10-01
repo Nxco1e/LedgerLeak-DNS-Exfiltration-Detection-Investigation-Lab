@@ -1,0 +1,16 @@
+# Detection 5: DNS spike relative to baseline
+# Detects abnormal behavior when current value deviates from the endpoint's historical pattern.
+# Why it matters: suspicious activity often looks like a spike above the usual baseline.
+# Fields required: _time, host, avg_queries_per_minute, queries_per_minute
+# MITRE ATT&CK: T1071.004
+# Analyst triage: validate with historical and process evidence.
+
+index=dns_analytics
+| stats latest(queries_per_minute) AS current_queries BY host
+| join host [
+    index=dns_analytics
+    | stats avg(queries_per_minute) AS baseline_queries BY host
+  ]
+| eval deviation = current_queries - baseline_queries
+| where deviation > 20
+| sort - deviation
